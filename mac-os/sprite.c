@@ -6,22 +6,23 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 17:46:47 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/17 12:44:03 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/30 21:17:24 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "constants.h"
-#define UDIV 2
-#define VDIV 2
-#define VMOVE 200.0
+#define UDIV 1
+#define VDIV 1
+#define VMOVE 0.5
 
 void	sprite_num_init(t_game *game, int i)
 {
+	float		vmove;
+
 	game->sp_disc.sprite_x = game->sprite[i].x - game->cub.player_x;
 	game->sp_disc.sprite_y = game->sprite[i].y - game->cub.player_y;
-	game->sp_disc.inv_det = 1.0 / \
-	(game->player.plane_y * game->player.dir_x -\
-	game->player.dir_y * game->player.plane_x);
+	game->sp_disc.inv_det = 1.0 / (game->player.plane_y * game->player.dir_x \
+	- game->player.dir_y * game->player.plane_x);
 	game->sp_disc.transform_x = game->sp_disc.inv_det * \
 	(game->player.dir_x * game->sp_disc.sprite_y -\
 	game->player.dir_y * game->sp_disc.sprite_x);
@@ -30,7 +31,13 @@ void	sprite_num_init(t_game *game, int i)
 	game->player.plane_y * game->sp_disc.sprite_x);
 	game->sp_disc.sprite_screen_x = (int)((game->cub.width / 2) * \
 	(1 + game->sp_disc.transform_x / game->sp_disc.transform_y));
-	game->sp_disc.v_move_screen = (int)(VMOVE / game->sp_disc.transform_y);
+	if ((game->cub.width - game->cub.height) > 200)
+		vmove = 200;
+	else if ((game->cub.width - game->cub.height) < -200)
+		vmove = -10.0;
+	else
+		vmove = 0.0;
+	game->sp_disc.v_move_screen = (int)(vmove / game->sp_disc.transform_y);
 	game->sp_disc.sprite_height = \
 	labs((long)(game->cub.height / (game->sp_disc.transform_y))) / VDIV;
 	game->sp_disc.draw_start_y = -game->sp_disc.sprite_height /\

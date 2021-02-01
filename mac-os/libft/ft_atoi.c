@@ -6,7 +6,7 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/11 09:01:51 by stakabay          #+#    #+#             */
-/*   Updated: 2020/12/30 11:55:11 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/24 22:35:57 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	num = 0;
 	sign = 1;
-	if (*str == '\0' || str == 0)
-		return (0);
+	if (*str == '\0' || str == NULL)
+		return (-1);
 	while (*str == ' ' || *str == '\t' || *str == '\n' ||
 			*str == '\v' || *str == '\f' || *str == '\r')
 		str++;
@@ -39,5 +39,5 @@ int	ft_atoi(const char *str)
 			return (num = num * sign);
 		str++;
 	}
-	return (NULL);
+	return (-1);
 }

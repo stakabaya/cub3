@@ -6,7 +6,7 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 23:28:33 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/19 23:39:57 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:15:38 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int			open_file(t_game *game, char **argv, int argc)
 	len = ft_strlen(argv[1]);
 	if (ft_memcmp((argv[1] + (len - 4)), ".cub", 4) != 0)
 		ft_error(0, -1, "invalid extention");
+	if (len <= 4)
+		ft_error(0, -1, "invalid file");
 	if ((fd = open(argv[1], O_RDONLY | O_DIRECTORY)) != -1)
 		ft_error(0, -1, ".cub is a directory");
 	if ((fd = open(argv[1], O_RDONLY)) == -1)

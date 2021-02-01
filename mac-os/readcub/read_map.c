@@ -6,7 +6,7 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 11:29:28 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/19 23:09:28 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:05:12 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,11 @@ void		set_map(t_game *game)
 		while (game->cub.map[i - 1][j - 1] != '\0')
 		{
 			game->cub.bigmap[i][j] = game->cub.map[i - 1][j - 1];
-			divide(game, i, j, playerflag);
+			playerflag = divide(game, i, j, playerflag);
 			j++;
 		}
 		i++;
 	}
+	if (playerflag == 0)
+		ft_error(0, 0, "no player input");
 }

@@ -6,7 +6,7 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 22:21:06 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/17 22:36:25 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/30 20:43:27 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void		window_init(t_game *game)
 	if (game->cub.height > sizey)
 		game->cub.height = sizey;
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, \
+	if (game->bmp != 1)
+		game->win = mlx_new_window(game->mlx, \
 				game->cub.width, game->cub.height, "mlx 42");
 }
 

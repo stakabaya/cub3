@@ -6,7 +6,7 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:59:38 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/19 09:02:43 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/27 22:45:36 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ unsigned int	ft_c(t_game *game, char *line, int count, unsigned char rflag)
 	count = 0;
 	while (str[count] != NULL)
 		count++;
-	if (count != 3 || rflag & CFLAG)
-		ft_error(0, -1, "invalid ceiling RGB");
+	if (count != 3 || rflag & CFLAG || str[0] == NULL \
+		|| str[1] == NULL || str[2] == NULL)
+		ft_error(0, -1, "invalid floor RGB");
 	game->cub.cr = ft_atoi(str[0]);
 	game->cub.cg = ft_atoi(str[1]);
 	game->cub.cb = ft_atoi(str[2]);
@@ -69,7 +70,8 @@ unsigned int	ft_f(t_game *game, char *line, int count, unsigned char rflag)
 	count = 0;
 	while (str[count] != NULL)
 		count++;
-	if (count != 3 || rflag & FFLAG)
+	if (count != 3 || rflag & FFLAG || str[0] == NULL \
+		|| str[1] == NULL || str[2] == NULL)
 		ft_error(0, -1, "invalid floor RGB");
 	game->cub.fr = ft_atoi(str[0]);
 	game->cub.fg = ft_atoi(str[1]);

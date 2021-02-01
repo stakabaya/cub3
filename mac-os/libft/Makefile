@@ -10,11 +10,7 @@ SRCS := ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 	ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c \
 	ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c \
 
-SONAME := libft.so
 OBJS := $(SRCS:.c=.o)
-
-so : $(NAME)
-	${CC} ${CFLAGS} -shared ${OBJS} -o ${SONAME}
 
 all: $(NAME)
 
@@ -25,7 +21,7 @@ clean:
 	rm -f $(OBJS)
  
 fclean: clean
-	rm -f $(SONAME)
+	rm -f $(SONAME) $(NAME)
  
 re: fclean all
  

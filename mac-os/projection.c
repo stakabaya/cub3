@@ -6,7 +6,7 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 21:54:29 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/18 21:55:47 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/01/30 21:10:52 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	ft_ewsn(t_game *game, int x, int texnum)
 			!(game->rays[x].was_hit_vertical))
 		game->proj.texel_color = game->texture[1].data\
 		[(tex_width * game->proj.tex_offset_y) \
-		+ game->proj.tex_offset_x];
+		+ (tex_width - game->proj.tex_offset_x - 1)];
 	else if (game->rays[x].is_ray_facing_left && game->rays[x].was_hit_vertical)
-		game->proj.texel_color = game->texture[2].data\
-		[(tex_width * game->proj.tex_offset_y) + game->proj.tex_offset_x];
+		game->proj.texel_color = game->texture[2].data[(tex_width * game->proj.\
+		tex_offset_y) + (tex_width - game->proj.tex_offset_x - 1)];
 	else if (game->rays[x].is_ray_facing_right && \
 			game->rays[x].was_hit_vertical)
 		game->proj.texel_color = game->texture[3].data\
