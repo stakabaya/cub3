@@ -5,101 +5,69 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/17 22:38:10 by stakabay          #+#    #+#             */
-/*   Updated: 2021/01/17 22:55:31 by stakabay         ###   ########.fr       */
+/*   Created: 2021/04/03 11:24:12 by stakabay          #+#    #+#             */
+/*   Updated: 2021/04/04 19:28:15 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "constants.h"
 
-int			map_has_wall_at(t_game *game, float x, float y)
+void	move_right(t_game *game)
 {
-	int		map_grid_index_x;
-	int		map_grid_index_y;
-
-	if (x < 0 || x > COLS * TILE_SIZE || y < 0 || y > ROWS * TILE_SIZE)
-		return (1);
-	map_grid_index_x = floor(x / TILE_SIZE);
-	map_grid_index_y = floor(y / TILE_SIZE);
-	if (game->cub.map[map_grid_index_y][map_grid_index_x] == '1')
-	{
-		return (1);
-	}
-	else if (game->cub.map[map_grid_index_y][map_grid_index_x] == '2')
-		return (2);
-	return (0);
+	if ((game->worldmap[(int)(game->posx + game->px *
+		game->mspeed)][(int)(game->posy)]) == '0')
+		game->posx += game->px * game->mspeed;
+	if ((game->worldmap[(int)(game->posx)][(int)(game->posy +
+		game->py * game->mspeed)]) == '0')
+		game->posy += game->py * game->mspeed;
 }
 
-void		rotation_matrix(t_game *game)
+void	move_left(t_game *game)
 {
-	game->player.old_dir_x = game->player.dir_x;
-	game->player.dir_x = game->player.dir_x * cos(game->player.turn_speed\
-	* game->player.turn_direction) - game->player.dir_y * \
-	sin(game->player.turn_speed * game->player.turn_direction);
-	game->player.dir_y = game->player.old_dir_x * \
-	sin(game->player.turn_speed * game->player.turn_direction) +\
-	game->player.dir_y * cos(game->player.turn_speed *\
-	game->player.turn_direction);
-	game->player.old_plane_x = game->player.plane_x;
-	game->player.plane_x = game->player.plane_x * \
-	cos(game->player.turn_speed * game->player.turn_direction) -\
-	game->player.plane_y * sin(game->player.turn_speed *\
-	game->player.turn_direction);
-	game->player.plane_y = game->player.old_plane_x * \
-	sin(game->player.turn_speed * game->player.turn_direction) +\
-	game->player.plane_y * cos(game->player.turn_speed *\
-	game->player.turn_direction);
+	if ((game->worldmap[(int)(game->posx - game->px *
+		game->mspeed)][(int)(game->posy)]) == '0')
+		game->posx -= game->px * game->mspeed;
+	if ((game->worldmap[(int)(game->posx)][(int)(game->posy -
+		game->py * game->mspeed)]) == '0')
+		game->posy -= game->py * game->mspeed;
 }
 
-void		player_update(t_game *game)
+void	move_front(t_game *game)
 {
-	game->player.new_player_x = game->player.x + \
-	cos(game->player.rotation_angle + (90 * PI / 180 \
-	* game->player.lateralmove)) * game->player.walk_speed \
-	* game->player.walk_direction;
-	game->player.new_player_y = game->player.y + \
-	sin(game->player.rotation_angle + (90 * PI / 180 \
-	* game->player.lateralmove)) * game->player.walk_speed \
-	* game->player.walk_direction;
-	game->player.rotation_angle += game->player.turn_speed \
-	* game->player.turn_direction;
-	rotation_matrix(game);
-	if (!map_has_wall_at(game, game->player.new_player_x,\
-		game->player.new_player_y))
-	{
-		game->player.x = game->player.new_player_x;
-		game->player.y = game->player.new_player_y;
-		game->cub.player_x = game->player.x / TILE_SIZE;
-		game->cub.player_y = game->player.y / TILE_SIZE;
-	}
-	game->player.walk_direction = 0;
-	game->player.lateralmove = 0;
-	game->player.turn_direction = 0;
+	if ((game->worldmap[(int)(game->posx + game->dirx *
+		game->mspeed)][(int)(game->posy)]) == '0')
+		game->posx += game->dirx * game->mspeed;
+	if ((game->worldmap[(int)(game->posx)][(int)(game->posy +
+		game->diry * game->mspeed)]) == '0')
+		game->posy += game->diry * game->mspeed;
 }
 
-int			deal_key(int key, t_game *game)
+void	move_back(t_game *game)
 {
-	if (key == KEY_ESC)
+	if ((game->worldmap[(int)(game->posx - game->dirx *
+		game->mspeed)][(int)(game->posy)]) == '0')
+		game->posx -= game->dirx * game->mspeed;
+	if ((game->worldmap[(int)(game->posx)][(int)(game->posy -
+		game->diry * game->mspeed)]) == '0')
+		game->posy -= game->diry * game->mspeed;
+}
+
+int		deal_key(int key, t_game *game)
+{
+	if (key == K_W)
+		move_front(game);
+	if (key == K_S)
+		move_back(game);
+	if (key == K_D)
+		move_right(game);
+	if (key == K_A)
+		move_left(game);
+	if (key == K_L)
+		rotate_left(game);
+	if (key == K_R)
+		rotate_right(game);
+	if (key == K_ESC)
 		exit(0);
-	if (key == KEY_W || key == KEY_UP)
-		game->player.walk_direction = 1;
-	if (key == KEY_S || key == KEY_DOWN)
-		game->player.walk_direction = -1;
-	if (key == KEY_LEFT)
-	{
-		game->player.walk_direction = -1;
-		game->player.lateralmove = 1;
-	}
-	if (key == KEY_RIGHT)
-	{
-		game->player.walk_direction = 1;
-		game->player.lateralmove = 1;
-	}
-	if (key == KEY_D)
-		game->player.turn_direction = 1;
-	if (key == KEY_A)
-		game->player.turn_direction = -1;
-	player_update(game);
-	game->player.g_key_flag = 1;
+	game->key_flag = 1;
 	return (0);
 }

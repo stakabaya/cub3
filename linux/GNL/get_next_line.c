@@ -6,20 +6,20 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 16:24:28 by stakabay          #+#    #+#             */
-/*   Updated: 2020/08/25 15:16:06 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:08:49 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
 	size_t	s_len;
 
 	if (s == NULL)
 		return (NULL);
-	s_len = ft_strlen(s);
+	s_len = ft_strlen_gnl(s);
 	if (s_len < start)
 		len = 0;
 	else if (s_len - start < len)
@@ -27,7 +27,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	sub = malloc(len + 1);
 	if (sub == NULL)
 		return (NULL);
-	ft_memcpy(sub, s + start, len);
+	ft_memcpy_gnl(sub, s + start, len);
 	*(sub + len) = '\0';
 	return (sub);
 }
@@ -52,9 +52,9 @@ int		join_sta(char **sta, char *buf)
 	char	*tmp;
 
 	if (!*sta)
-		if (!(*sta = ft_strdup("")))
+		if (!(*sta = ft_strdup_gnl("")))
 			return (0);
-	if (!(tmp = ft_strjoin(*sta, buf)))
+	if (!(tmp = ft_strjoin_gnl(*sta, buf)))
 		return (0);
 	free(*sta);
 	*sta = tmp;
@@ -65,7 +65,7 @@ int		join_line(char **line, char **sta, char *ptr)
 {
 	char	*tmp;
 
-	if (!(*line = ft_substr(*sta, 0, ptr - *sta)))
+	if (!(*line = ft_substr_gnl(*sta, 0, ptr - *sta)))
 	{
 		free(*sta);
 		*sta = NULL;
@@ -77,7 +77,7 @@ int		join_line(char **line, char **sta, char *ptr)
 		*sta = NULL;
 		return (0);
 	}
-	if (!(tmp = ft_strdup(ptr + 1)))
+	if (!(tmp = ft_strdup_gnl(ptr + 1)))
 	{
 		free(*sta);
 		*sta = NULL;
@@ -104,7 +104,7 @@ int		get_next_line(int fd, char **line)
 		buf[rc] = '\0';
 		if (!(join_sta(&sta[fd], buf)))
 			return (fail(&sta[fd], &buf));
-		if (((ptr = ft_strchr(sta[fd], '\n')) != 0) || rc == 0)
+		if (((ptr = ft_strchr_gnl(sta[fd], '\n')) != 0) || rc == 0)
 		{
 			free(buf);
 			return (join_line(line, &sta[fd], ptr));

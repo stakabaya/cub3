@@ -6,13 +6,13 @@
 /*   By: stakabay <stakabay@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 16:42:22 by stakabay          #+#    #+#             */
-/*   Updated: 2020/08/25 15:14:00 by stakabay         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:09:06 by stakabay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char		*ft_strjoin_gnl(char const *s1, char const *s2)
 {
 	int		s1_len;
 	int		s2_len;
@@ -20,36 +20,36 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
+	s1_len = ft_strlen_gnl(s1);
+	s2_len = ft_strlen_gnl(s2);
 	if (!(join = malloc(s1_len + s2_len + 1)))
 		return (NULL);
-	ft_memcpy(join, s1, s1_len);
-	ft_memcpy(join + s1_len, s2, s2_len);
+	ft_memcpy_gnl(join, s1, s1_len);
+	ft_memcpy_gnl(join + s1_len, s2, s2_len);
 	*(join + s1_len + s2_len) = 0;
 	return (join);
 }
 
-char	*ft_strdup(const char *s)
+char		*ft_strdup_gnl(const char *s)
 {
 	char	*dup;
 	int		len;
 
-	len = ft_strlen(s);
+	len = ft_strlen_gnl(s);
 	dup = malloc(len + 1);
 	if (dup == NULL)
 		return (NULL);
 	else
-		return (ft_memcpy(dup, s, len + 1));
+		return (ft_memcpy_gnl(dup, s, len + 1));
 }
 
-char	*ft_strchr(const char *s, int c)
+char		*ft_strchr_gnl(const char *s, int c)
 {
-	char *str;
+	char	*str;
 
 	str = (char *)s;
 	if (c == 0)
-		return (str + ft_strlen(s));
+		return (str + ft_strlen_gnl(s));
 	while (*str != '\0')
 	{
 		if (*str == c)
@@ -59,9 +59,9 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-size_t	ft_strlen(const char *s)
+size_t		ft_strlen_gnl(const char *s)
 {
-	int len;
+	int		len;
 
 	len = 0;
 	while (*s++)
@@ -69,7 +69,7 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-void	*ft_memcpy(void *buf1, const void *buf2, size_t n)
+void		*ft_memcpy_gnl(void *buf1, const void *buf2, size_t n)
 {
 	unsigned char		*tmp1;
 	const unsigned char	*tmp2;
